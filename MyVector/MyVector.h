@@ -1,23 +1,41 @@
 #pragma once
+#include<algorithm>
+
 class myvector
 {
 public:
-	myvector(int s)
+	explicit myvector(unsigned long long s)
 		:sz{ s },
 		elem{ new double[s] }
 	{
-		for (int i = 0; i < sz; ++i)
-			elem[i] = 0;
+		for (unsigned long long i = 0; i < sz; ++i)
+				elem[i] = 0;
 	}
+
+	myvector(std::initializer_list<double> lst)
+		:sz{ lst.size() },
+		elem{ new double[sz] }
+	{
+		std::copy(lst.begin(), lst.end(), elem);
+	}
+
+	myvector(const myvector& nw);
+	myvector& operator= (const myvector&);
+	double& operator[] (unsigned long long n) { return elem[n]; }
+	double operator[] (unsigned long long n) const { return elem[n]; }
+	myvector(myvector&& nw);
+	myvector& operator= (myvector&&);
+
 	~myvector()
 	{
 		delete[] elem;
 	}
-	int size() const { return sz; }
-	double get(int n) const { return elem[n]; }
-	void set(int n, double v) { elem[n] = v; }
+
+	unsigned long long size() const { return sz; }
+	double get(unsigned long long n) const { return elem[n]; }
+	void set(unsigned long long n, double v) { elem[n] = v; }
+
 private:
-	int sz;
+	unsigned long long sz;
 	double* elem;
 };
-
